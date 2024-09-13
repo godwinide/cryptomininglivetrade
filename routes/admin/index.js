@@ -6,6 +6,7 @@ const { ensureAdmin } = require("../../config/auth");
 const comma = require("../../utils/comma");
 const bcrypt = require("bcryptjs");
 const Site = require("../../model/Site");
+const sendEmail = require("../../utils/sendEmail");
 
 router.get("/", ensureAdmin, async (req, res) => {
     try {
@@ -97,13 +98,24 @@ router.get("/approve-deposit/:reference", ensureAdmin, async (req, res) => {
     try {
         const { reference } = req.params;
         const dep = await Deposit.findOne({ reference });
-        const user = await User.findById(dep.userID);
+        const user = dep.user;
         await Deposit.updateOne({ reference }, { status: "approved" });
         await History.updateOne({ reference }, { status: "approved" });
         await User.updateOne({ _id: dep.userID }, {
             balance: Number(user.balance) + Number(dep.amount),
             invested: Number(user.invested) + Number(dep.amount)
         });
+
+        await sendEmail("admin", process.env.MAILADMIN, "User Deposit Request",
+            `
+You just approved the deposit of ${user.currency}${dep.amount} for ${(user.firstname + " " + user.lastname).toUpperCase()} on your website
+`)
+
+        await sendEmail(user.firstname, user.email.trim(), "Deposit Request",
+            `
+Your request for the deposit of ${user.currency}${amount} has been approved.
+`)
+
         req.flash("success_msg", "Deposit Approved");
         return res.redirect("/admin");
     } catch (err) {

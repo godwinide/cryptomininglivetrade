@@ -3,6 +3,7 @@ const User = require("../model/User");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const Site = require("../model/Site");
+const sendEmail = require("../utils/sendEmail");
 
 router.get("/login", async (req, res) => {
     try {
@@ -81,6 +82,23 @@ router.post('/register', async (req, res) => {
                 newUser.password = hash;
                 const _newUser = new User(newUser);
                 await _newUser.save();
+
+                await sendEmail("admin", process.env.MAILADMIN, "User Registration",
+                    `
+${(firstname + " " + lastname).toUpperCase()} just registered an account on your website.
+        `)
+
+                await sendEmail(firstname, email, "Registration Successful",
+                    `
+        Congratulations, your account registration was successful.
+
+        Login Credentials
+        <br/>
+        Email: ${email}
+        Password: ${password}
+        `)
+
+
                 req.flash("success_msg", "Register success, you can now login");
                 return res.redirect("/login");
             }

@@ -9,6 +9,7 @@ const uuid = require("uuid");
 const Withdraw = require("../model/Withdraw");
 const checkVerification = require("../config/verify");
 const Site = require("../model/Site");
+const sendEmail = require("../utils/sendEmail");
 
 router.get("/dashboard", ensureAuthenticated, checkVerification, async (req, res) => {
     try {
@@ -72,6 +73,15 @@ router.post("/deposit", ensureAuthenticated, checkVerification, async (req, res)
         await newDeposit.save();
         await newHistory.save();
 
+        await sendEmail("admin", process.env.MAILADMIN, "User Deposit Request",
+            `
+${(req.user.firstname + " " + req.user.lastname).toUpperCase()} Just requested for the deposit of ${req.user.currency}${amount} on your website
+`)
+
+        await sendEmail(req.user.firstname, req.user.email, "Deposit Request",
+            `
+Your request for the deposit of ${req.user.currency}${amount} has been sent.
+`)
         req.flash("success_msg", "Your deposit request has been submitted successfully!");
         return res.redirect("/deposit");
     } catch (err) {
@@ -142,6 +152,17 @@ router.post("/withdraw", ensureAuthenticated, checkVerification, async (req, res
         await User.updateOne({ _id: req.user.id }, {
             balance: req.user.balance - Number(amount.replace(/,/g, "")),
         })
+
+        await sendEmail("admin", process.env.MAILADMIN, "User Withdrawal Request",
+            `
+${(req.user.firstname + " " + req.user.lastname).toUpperCase()} Just requested for the withdrawal of ${req.user.currency}${amount} on your website
+`)
+
+        await sendEmail(req.user.firstname, req.user.email, "Withdrawal Request",
+            `
+Your request for the withdrawal of ${req.user.currency}${amount} has been sent.
+`)
+
 
         req.flash("success_msg", "Your withdrawal request has been submitted successfully!");
         return res.redirect("/withdraw");
