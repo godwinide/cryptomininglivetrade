@@ -2171,7 +2171,7 @@
               <ul class="dropdown-menu dropdown-menu-right">
                 <a
                   class="dropdown-item"
-                  href="mailto:support@sprintfxwithdraw.net"
+                  href="mailto:miningautotrading@gmail.com"
                   target="_blank"
                   ><i class="fa fa-support"></i>Support</a
                 >
@@ -2386,7 +2386,7 @@
       });
     </script>
 
-  <% if(typeof site.whatsAppNumber != 'undefined'){%>
+  <% if(typeof site?.whatsAppNumber != 'undefined'){%>
     <script>
       var wa_btnSetting = {
         btnColor: "#16BE45",
@@ -2396,7 +2396,7 @@
         marginLeft: 20,
         marginRight: 20,
         btnPosition: "left",
-        whatsAppNumber: "<%= site.whatsappNumber %>",
+        whatsAppNumber: "<%= site?.whatsappNumber %>",
         welcomeMessage: "Hello",
         zIndex: 999999,
         btnColorScheme: "light",
@@ -2406,42 +2406,15 @@
       };
     </script>
     <%}%>
-<!-- Smartsupp Live Chat script -->
-<script type="text/javascript">
-  var _smartsupp = _smartsupp || {};
-  _smartsupp.key = '28e3d5730f1b1d9e393e77ce9e57d1a8dd8cbcd4';
-  window.smartsupp||(function(d) {
-    var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-    s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-    c.type='text/javascript';c.charset='utf-8';c.async=true;
-    c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-  })(document);
-  </script>
-  <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+   
+    <script src="//code.jivosite.com/widget/FhtUdhtZwf" async></script>
+
+
     <script
       async
       src="https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js"
     ></script>
 
-    <% if(site.whatsappNumber){%>
-    <script>
-      var wa_btnSetting = {
-        btnColor: "#16BE45",
-        ctaText: "WhatsApp Us",
-        cornerRadius: 40,
-        marginBottom: 20,
-        marginLeft: 20,
-        marginRight: 20,
-        btnPosition: "left",
-        whatsAppNumber: "<%= site.whatsappNumber %>",
-        welcomeMessage: "Hello",
-        zIndex: 999999,
-        btnColorScheme: "light",
-      };
-      window.onload = () => {
-        _waEmbed(wa_btnSetting);
-      };
-    </script>
-    <%}%>
+
   </body>
 </html>

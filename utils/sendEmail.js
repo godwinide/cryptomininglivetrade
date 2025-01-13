@@ -12,7 +12,7 @@ const generateEmail = (name, body) => {
   <strong style="font-size: 1.2em; font-family: sans-serif">Best Regards</strong
   ><br />
   <strong style="font-size: 1.2em; font-family: sans-serif"
-    >LiveCryptoMining</strong
+    >Auto Trading Mining</strong
   >
   <br />
   <br />

@@ -36,7 +36,7 @@ app.use(passport.session());
 
 // Global variables
 app.use(async function (req, res, next) {
-  res.locals.siteName = "Live Crypto Mining"
+  res.locals.siteName = "Auto Trading Mining"
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
